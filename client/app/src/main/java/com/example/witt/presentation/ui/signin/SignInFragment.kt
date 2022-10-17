@@ -25,7 +25,7 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
         binding.viewModel = viewModel
 
         //token 검사
-        viewModel.onEvent(SignInEvent.CheckToken)
+        //viewModel.onEvent(SignInEvent.CheckToken)
 
         initButton()
         initChannel()
@@ -53,7 +53,9 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
             viewModel.signInEvents.collect { event ->
                 when(event){
                     is SignInViewModel.SignInUiEvent.Success ->{
-                        val direction = SignInFragmentDirections.actionSignInFragmentToHomeFragment()
+                        val nickname = viewModel.socialProfile.nickName
+                        val profileImage = viewModel.socialProfile.profileImage
+                        val direction = SignInFragmentDirections.actionSignInFragmentToProfileEditFragment(nickname, profileImage)
                         findNavController().navigate(direction)
                     }
                     is SignInViewModel.SignInUiEvent.Failure ->{
